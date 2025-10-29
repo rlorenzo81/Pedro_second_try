@@ -6,6 +6,7 @@ import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
+import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,13 +33,23 @@ public class BlueAuto3 extends OpMode {
 
     private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(70, 74, Math.toRadians(307)); // 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose2 = new Pose(70, 74, Math.toRadians(315));
     private final Pose pickup1Pose = new Pose(47, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose driveThroughStack1Pose = new Pose(19, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(72, 74, Math.toRadians(307)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180));
+    private final Pose driveThroughStack2Pose = new Pose(19, 60, Math.toRadians(180));
 
+
+    private final Pose scorePose3 = new Pose(70, 74, Math.toRadians(307)); //was 315
+
+    private final Pose leavingPose = new Pose(47, 60, Math.toRadians(180));
+     // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    //PathConstraints slow = new PathConstraints(0.25, /*maxVel ips*/ 60, /*maxAccel*/ 1.0, /*maxAngVel*/ 1.0);
+//toIntakeSlow.getPath(0).setPathConstraints(slow);  o
+   // toIntakeSlow.setPathConstraints(slow);
     private Path scorePreload;
-    private PathChain grabPickup1,intakeStack1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain grabPickup1,intakeStack1, scorePickup1, grabPickup2, intakeStack2, scorePickup2, grabPickup3, scorePickup3,leaveOutChain;
 
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
@@ -62,26 +73,32 @@ public class BlueAuto3 extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(driveThroughStack1Pose, scorePose))
-                .setLinearHeadingInterpolation(driveThroughStack1Pose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(driveThroughStack1Pose, scorePose2))
+
+                .setLinearHeadingInterpolation(driveThroughStack1Pose.getHeading(), scorePose2.getHeading())
                 .build();
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup2Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
+                .addPath(new BezierLine(scorePose2, pickup2Pose))
+                .setLinearHeadingInterpolation(scorePose2.getHeading(), pickup2Pose.getHeading())
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup2Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
+        intakeStack2 = follower.pathBuilder()
+                .addPath(new BezierLine(pickup2Pose, driveThroughStack2Pose))
+                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), driveThroughStack2Pose.getHeading())
+                .build();
+
+        scorePickup2= follower.pathBuilder()
+                .addPath(new BezierLine(driveThroughStack2Pose, scorePose3))
+                .setLinearHeadingInterpolation(driveThroughStack2Pose.getHeading(), scorePose3.getHeading())
                 .build();
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
+        leaveOutChain = follower.pathBuilder()
+                .addPath(new BezierLine(scorePose3, leavingPose))
+                .setLinearHeadingInterpolation(scorePose3.getHeading(), leavingPose.getHeading())
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -110,7 +127,7 @@ public class BlueAuto3 extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(5000);
+                    sleepMs(4500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -160,10 +177,12 @@ public class BlueAuto3 extends OpMode {
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    /* Grab Sample */
+                    /* Grab Sampile */intakeOn();
+                    sleepMs(500);
+
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup2, true);
+                    follower.followPath(intakeStack2, true);
                     setPathState(6);
                 }
                 break;
@@ -173,7 +192,7 @@ public class BlueAuto3 extends OpMode {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup3, true);
+                    follower.followPath(scorePickup2, true);
                     setPathState(7);
                 }
                 break;
@@ -182,8 +201,14 @@ public class BlueAuto3 extends OpMode {
                 if (!follower.isBusy()) {
                     /* Grab Sample */
 
+                    intakeTriggerShooterOn();
+                    sleepMs(5000);
+
+                    intakeTriggerShooterOff();
+                    sleepMs(200);
+
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup3, true);
+                    follower.followPath(leaveOutChain, true);
                     setPathState(8);
                 }
                 break;
@@ -313,8 +338,8 @@ public void shooterOff(){
         frontIntake.setPower(1);
 }
     public void intakeTriggerShooterOff(){
-        leftShooter.setPower(0);
-        rightShooter.setPower(0);
+       // leftShooter.setPower(0);
+      //  rightShooter.setPower(0);
     leftTrigger.setPower(0);
     rightTrigger.setPower(0);
     frontIntake.setPower(0);
