@@ -28,18 +28,15 @@ public class RedAutoBack extends OpMode {
 
     private int pathState;
 
-    private final Pose startPose = new Pose(116, 128, Math.toRadians(225)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(70, 74, Math.toRadians(307)); // 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose2 = new Pose(70, 74, Math.toRadians(315));
-    private final Pose pickup1Pose = new Pose(47, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(19, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180));
-    private final Pose driveThroughStack2Pose = new Pose(19, 60, Math.toRadians(180));
-
-
-    private final Pose scorePose3 = new Pose(70, 74, Math.toRadians(307)); //was 315
-
-    private final Pose leavingPose = new Pose(47, 60, Math.toRadians(180));
+    private final Pose startPose = new Pose(116, 128, Math.toRadians(0)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(72, 75, Math.toRadians(225)); //was 17 x was 70. 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose2 = new Pose(71, 74, Math.toRadians(220));
+    private final Pose pickup1Pose = new Pose(95, 85, Math.toRadians(0)); // y was 86 Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose driveThroughStack1Pose = new Pose(127, 85, Math.toRadians(0)); // 122 Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(95, 59, Math.toRadians(0)); // y was 61.5
+    private final Pose driveThroughStack2Pose = new Pose(132, 59, Math.toRadians(0)); //127
+    private final Pose scorePose3 = new Pose(71, 74, Math.toRadians(217)); //was 216
+    private final Pose leavingPose = new Pose(95, 59, Math.toRadians(180));
      // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //PathConstraints slow = new PathConstraints(0.25, /*maxVel ips*/ 60, /*maxAccel*/ 1.0, /*maxAngVel*/ 1.0);
