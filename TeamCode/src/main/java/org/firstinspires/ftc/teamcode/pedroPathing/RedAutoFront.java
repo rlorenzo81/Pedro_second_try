@@ -1,12 +1,10 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -14,12 +12,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
-@Autonomous(name = "BA3", group = "Examples")
-public class BlueAuto3 extends OpMode {
+@Autonomous(name = "Red Front", group = "Examples")
+public class RedAutoFront extends OpMode {
     private DcMotorEx leftShooter;
     private DcMotorEx rightShooter;
     private DcMotor frontIntake;
@@ -31,20 +26,17 @@ public class BlueAuto3 extends OpMode {
 
     private int pathState;
 
-    private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(70, 74, Math.toRadians(307)); // 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose2 = new Pose(70, 74, Math.toRadians(315));
-    private final Pose pickup1Pose = new Pose(47, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(19, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180));
-    private final Pose driveThroughStack2Pose = new Pose(19, 60, Math.toRadians(180));
-
-
-    private final Pose scorePose3 = new Pose(70, 74, Math.toRadians(307)); //was 315
-
-    private final Pose leavingPose = new Pose(47, 60, Math.toRadians(180));
+    private final Pose startPose = new Pose(87, 8, Math.toRadians(270)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(85, 15, Math.toRadians(250)); // Angle 310 x:71 y:24
+    private final Pose pickup1Pose = new Pose(95, 35, Math.toRadians(0)); // y 35  Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose driveThroughStack1Pose = new Pose(128, 37 , Math.toRadians(0)); // 35 Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose scorePose2 = new Pose(85, 16, Math.toRadians(242.5));
+    private final Pose pickup2Pose = new Pose(95, 56, Math.toRadians(0)); //y 60
+    private final Pose driveThroughStack2Pose = new Pose(129, 56.5, Math.toRadians(0)); // y 56
+    private final Pose scorePose3 = new Pose(86, 19, Math.toRadians(243)); //was 297
+    private final Pose leavingPose = new Pose(80, 35, Math.toRadians(0));
      // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //PathConstraints slow = new PathConstraints(0.25, /*maxVel ips*/ 60, /*maxAccel*/ 1.0, /*maxAngVel*/ 1.0);
 //toIntakeSlow.getPath(0).setPathConstraints(slow);  o
    // toIntakeSlow.setPathConstraints(slow);
@@ -143,6 +135,7 @@ public class BlueAuto3 extends OpMode {
                     /* Grab Sample */
                     intakeOn();
 
+
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(intakeStack1, true);
                     setPathState(3);
@@ -153,6 +146,7 @@ public class BlueAuto3 extends OpMode {
                 if (!follower.isBusy()) {
                     /* Grab Sample */
                     intakeOn();
+                    sleepMs(500);
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1, true);
@@ -178,7 +172,7 @@ public class BlueAuto3 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
                     /* Grab Sampile */intakeOn();
-                    sleepMs(500);
+
 
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -190,7 +184,7 @@ public class BlueAuto3 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Score Sample */
-
+                    sleepMs(500);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup2, true);
                     setPathState(7);
@@ -331,8 +325,8 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.6);
-        rightShooter.setPower(0.6);
+       leftShooter.setPower(-0.62);
+        rightShooter.setPower(0.62);
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);

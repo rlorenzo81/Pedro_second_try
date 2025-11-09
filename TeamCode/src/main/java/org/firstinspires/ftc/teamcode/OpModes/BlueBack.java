@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Red Back", group = "Examples")
-public class RedAutoBack extends OpMode {
+@Autonomous(name = "Blue Back", group = "Examples")
+public class BlueBack extends OpMode {
     private DcMotorEx leftShooter;
     private DcMotorEx rightShooter;
     private DcMotor frontIntake;
@@ -27,16 +27,16 @@ public class RedAutoBack extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
+    private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(56, 86, Math.toRadians(308)); // up 2305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose2 = new Pose(56, 86, Math.toRadians(316)); //70,74 ; 56,86
+    private final Pose pickup1Pose = new Pose(47, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose driveThroughStack1Pose = new Pose(18, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180));
+    private final Pose driveThroughStack2Pose = new Pose(11, 60, Math.toRadians(180));
+    private final Pose scorePose3 = new Pose(56, 86, Math.toRadians(316)); //was 310
 
-    private final Pose startPose = new Pose(116, 128, Math.toRadians(0)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(90, 94, Math.toRadians(230.5)); //was 72,75 (225). 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose2 = new Pose(94, 84, Math.toRadians(224)); //was 71,74 (220)
-    private final Pose pickup1Pose = new Pose(95, 86, Math.toRadians(0)); // y was 86 Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(127, 86, Math.toRadians(0)); // 122 Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(95, 61, Math.toRadians(0)); // y was 61.5
-    private final Pose driveThroughStack2Pose = new Pose(134, 59, Math.toRadians(0)); //127
-    private final Pose scorePose3 = new Pose(94, 84, Math.toRadians(224)); //was 71, 74 (217)
-    private final Pose leavingPose = new Pose(95, 59, Math.toRadians(180));
+    private final Pose leavingPose = new Pose(47, 60, Math.toRadians(180));
      // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //PathConstraints slow = new PathConstraints(0.25, /*maxVel ips*/ 60, /*maxAccel*/ 1.0, /*maxAngVel*/ 1.0);
@@ -171,7 +171,7 @@ public class RedAutoBack extends OpMode {
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    /* Grab Sample */intakeOn();
+                    /* Grab Sampile */intakeOn();
                     sleepMs(500);
 
 
@@ -325,8 +325,8 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.53);
-        rightShooter.setPower(0.53);
+       leftShooter.setPower(-0.55);
+        rightShooter.setPower(0.55);
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);
