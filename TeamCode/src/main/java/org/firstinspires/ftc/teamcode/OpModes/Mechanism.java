@@ -71,7 +71,7 @@ public class Mechanism  {
         rightTrigger.setPower(1);
   }
   public void shooterOn(){
-        leftShooter.setPower(-0.75);
+        leftShooter.setPower(-0.75);//
         rightShooter.setPower(0.75);
 
   }
