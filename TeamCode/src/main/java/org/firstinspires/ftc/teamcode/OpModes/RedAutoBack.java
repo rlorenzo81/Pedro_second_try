@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
@@ -22,6 +22,7 @@ public class RedAutoBack extends OpMode {
     private DcMotor frontIntake;
     private CRServo rightTrigger;
     private CRServo leftTrigger;
+    private DcMotor middleIntake;
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -29,13 +30,13 @@ public class RedAutoBack extends OpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(116, 128, Math.toRadians(0)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(90, 94, Math.toRadians(230.5)); //was 72,75 (225). 305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose2 = new Pose(94, 84, Math.toRadians(224)); //was 71,74 (220)
+    private final Pose scorePose = new Pose(87, 93, Math.toRadians(223)); // 229x90 y94 It is facing the goal at a 135 degree angle.
+    private final Pose scorePose2 = new Pose(91, 83, Math.toRadians(221)); //224x94 y84was 71,74 (220)
     private final Pose pickup1Pose = new Pose(95, 86, Math.toRadians(0)); // y was 86 Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(127, 86, Math.toRadians(0)); // 122 Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose driveThroughStack1Pose = new Pose(124.5, 86, Math.toRadians(0)); // x127 Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(95, 61, Math.toRadians(0)); // y was 61.5
-    private final Pose driveThroughStack2Pose = new Pose(134, 59, Math.toRadians(0)); //127
-    private final Pose scorePose3 = new Pose(94, 84, Math.toRadians(224)); //was 71, 74 (217)
+    private final Pose driveThroughStack2Pose = new Pose(124.5, 59, Math.toRadians(0)); //x=134
+    private final Pose scorePose3 = new Pose(91, 84, Math.toRadians(221)); //was 71, 74 (217)
     private final Pose leavingPose = new Pose(95, 59, Math.toRadians(180));
      // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -121,7 +122,7 @@ public class RedAutoBack extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(4500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
+                    sleepMs(5500); //was 4500, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -157,7 +158,7 @@ public class RedAutoBack extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     intakeTriggerShooterOn();
-                    sleepMs(5000);
+                    sleepMs(5500);//5000
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -196,7 +197,7 @@ public class RedAutoBack extends OpMode {
                     /* Grab Sample */
 
                     intakeTriggerShooterOn();
-                    sleepMs(5000);
+                    sleepMs(5500);//5000
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -258,6 +259,8 @@ public class RedAutoBack extends OpMode {
         frontIntake = hardwareMap.get(DcMotor.class, "fi");
         rightTrigger = hardwareMap.get(CRServo.class, "rt");
         leftTrigger = hardwareMap.get(CRServo.class, "lt");
+        middleIntake=hardwareMap.get(DcMotor.class,"mi");
+
 
         leftShooter.setDirection(DcMotorSimple.Direction.FORWARD);
         rightShooter.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -298,10 +301,12 @@ public class RedAutoBack extends OpMode {
 
 public void intakeOn(){
     frontIntake.setPower(1);
+    middleIntake.setPower(0.5);
 }
 
 public void intakeOff(){
     frontIntake.setPower(0);
+    middleIntake.setPower(0);
 }
 
 public void triggerOff(){
@@ -314,8 +319,8 @@ public void triggerOn(){
     rightTrigger.setPower(1);
 }
 public void shooterOn(){
-    leftShooter.setPower(-0.6);
-    rightShooter.setPower(0.6);
+    leftShooter.setPower(-0.75);
+    rightShooter.setPower(0.75);
 
 }
 
@@ -325,11 +330,12 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.53);
-        rightShooter.setPower(0.53);
+       leftShooter.setPower(-0.75);
+        rightShooter.setPower(0.75);
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);
+        middleIntake.setPower(0.5);
 }
     public void intakeTriggerShooterOff(){
        // leftShooter.setPower(0);
@@ -337,6 +343,7 @@ public void shooterOff(){
     leftTrigger.setPower(0);
     rightTrigger.setPower(0);
     frontIntake.setPower(0);
+    middleIntake.setPower(0);
 }
     private void sleepMs(long ms) {
         try {

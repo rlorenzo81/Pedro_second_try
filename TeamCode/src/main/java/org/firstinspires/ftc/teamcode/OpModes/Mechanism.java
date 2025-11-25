@@ -15,6 +15,7 @@ public class Mechanism  {
     private DcMotor leftShooter;
     private DcMotor rightShooter;
     private DcMotor frontIntake;
+    private DcMotor middleIntake;
     private CRServo rightTrigger;
     private CRServo leftTrigger;
     private ElapsedTime runtime=new ElapsedTime();
@@ -30,6 +31,7 @@ public class Mechanism  {
         frontIntake=hardwareMap.get(DcMotor.class,"fi");
        rightTrigger=hardwareMap.get(CRServo.class,"rt");
         leftTrigger=hardwareMap.get(CRServo.class,"lt");
+        middleIntake=hardwareMap.get(DcMotor.class,"mi");
 
        leftShooter.setDirection(DcMotorSimple.Direction.FORWARD);
         rightShooter.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -43,14 +45,20 @@ public class Mechanism  {
         leftRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+       leftShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       rightShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
   public void intakeOn(){
         frontIntake.setPower(1);
+        middleIntake.setPower(0.4);
   }
 
   public void intakeOff(){
+
         frontIntake.setPower(0);
+        middleIntake.setPower(0);
   }
 
   public void triggerOff(){
@@ -63,8 +71,8 @@ public class Mechanism  {
         rightTrigger.setPower(1);
   }
   public void shooterOn(){
-        leftShooter.setPower(-0.6);
-        rightShooter.setPower(0.6);
+        leftShooter.setPower(-0.75);
+        rightShooter.setPower(0.75);
 
   }
 
@@ -78,6 +86,11 @@ public class Mechanism  {
     if(runtime.milliseconds()< howLong){
         //do nothing
     }
+
+  }
+
+  public void intakeOut(){
+        frontIntake.setPower(-1);
   }
 
 

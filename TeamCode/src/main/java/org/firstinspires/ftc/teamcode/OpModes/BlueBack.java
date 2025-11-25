@@ -20,6 +20,7 @@ public class BlueBack extends OpMode {
     private DcMotorEx leftShooter;
     private DcMotorEx rightShooter;
     private DcMotor frontIntake;
+    private DcMotor middleIntake;
     private CRServo rightTrigger;
     private CRServo leftTrigger;
 
@@ -28,12 +29,12 @@ public class BlueBack extends OpMode {
 
     private int pathState;
     private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(56, 86, Math.toRadians(308)); // up 2305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(56, 86, Math.toRadians(305)); // was303 ang 308 up 2305 was wide right Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose2 = new Pose(56, 86, Math.toRadians(316)); //70,74 ; 56,86
     private final Pose pickup1Pose = new Pose(47, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(18, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180));
-    private final Pose driveThroughStack2Pose = new Pose(11, 60, Math.toRadians(180));
+    private final Pose driveThroughStack1Pose = new Pose(22.5, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(47, 61, Math.toRadians(180));
+    private final Pose driveThroughStack2Pose = new Pose(14, 61, Math.toRadians(180));
     private final Pose scorePose3 = new Pose(56, 86, Math.toRadians(316)); //was 310
 
     private final Pose leavingPose = new Pose(47, 60, Math.toRadians(180));
@@ -136,6 +137,7 @@ public class BlueBack extends OpMode {
                 if (!follower.isBusy()) {
                     /* Grab Sample */
                     intakeOn();
+                    sleepMs(300);
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(intakeStack1, true);
@@ -147,7 +149,7 @@ public class BlueBack extends OpMode {
                 if (!follower.isBusy()) {
                     /* Grab Sample */
                     intakeOn();
-                    sleepMs(300);
+                    sleepMs(400);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1, true);
                     setPathState(4);
@@ -184,7 +186,7 @@ public class BlueBack extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Score Sample */
-                    sleepMs(300);
+                    sleepMs(400);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup2, true);
                     setPathState(7);
@@ -258,6 +260,7 @@ public class BlueBack extends OpMode {
         frontIntake = hardwareMap.get(DcMotor.class, "fi");
         rightTrigger = hardwareMap.get(CRServo.class, "rt");
         leftTrigger = hardwareMap.get(CRServo.class, "lt");
+        middleIntake=hardwareMap.get(DcMotor.class,"mi");
 
         leftShooter.setDirection(DcMotorSimple.Direction.FORWARD);
         rightShooter.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -298,10 +301,13 @@ public class BlueBack extends OpMode {
 
 public void intakeOn(){
     frontIntake.setPower(1);
+    middleIntake.setPower(0.4);
+
 }
 
 public void intakeOff(){
     frontIntake.setPower(0);
+    middleIntake.setPower(0.0);
 }
 
 public void triggerOff(){
@@ -314,8 +320,8 @@ public void triggerOn(){
     rightTrigger.setPower(1);
 }
 public void shooterOn(){
-    leftShooter.setPower(-0.6);
-    rightShooter.setPower(0.6);
+    leftShooter.setPower(-0.75);
+    rightShooter.setPower(0.75);
 
 }
 
@@ -325,11 +331,12 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.55);
-        rightShooter.setPower(0.55);
+       leftShooter.setPower(-0.75); //was 0.55
+        rightShooter.setPower(0.75);
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);
+        middleIntake.setPower(0.4);
 }
     public void intakeTriggerShooterOff(){
        // leftShooter.setPower(0);
@@ -337,6 +344,7 @@ public void shooterOff(){
     leftTrigger.setPower(0);
     rightTrigger.setPower(0);
     frontIntake.setPower(0);
+    middleIntake.setPower(0);
 }
     private void sleepMs(long ms) {
         try {

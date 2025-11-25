@@ -45,7 +45,7 @@ public class Constants {
     );
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(1)
+            .maxPower(1) //was 1
             .rightFrontMotorName("rf")
             .rightRearMotorName("rr")
             .leftRearMotorName("lr")
@@ -54,8 +54,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(77.2218)
-            .yVelocity(60.99799);
+            .xVelocity(77.2218) //77.2218 to start
+            .yVelocity(60.99799); //60.99799
 
 
     //public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);

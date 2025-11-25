@@ -76,6 +76,9 @@ public class RemoteControl extends OpMode {
         if(gamepad2.right_bumper){
             drive.shooterOff();
         }
+        if(gamepad2.dpad_up){
+            drive.intakeOut();
+        }
 
     }
 
