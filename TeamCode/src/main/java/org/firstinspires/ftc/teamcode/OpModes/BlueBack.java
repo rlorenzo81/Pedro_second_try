@@ -122,7 +122,7 @@ public class BlueBack extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(4500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
+                    sleepMs(5000); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);

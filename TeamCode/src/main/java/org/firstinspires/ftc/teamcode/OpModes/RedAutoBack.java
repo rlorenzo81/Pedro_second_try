@@ -122,7 +122,7 @@ public class RedAutoBack extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(5500); //was 4500, trying to shorten the time after shooting, if this works change it for every other one
+                    sleepMs(5000); //was 4500, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -158,7 +158,7 @@ public class RedAutoBack extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     intakeTriggerShooterOn();
-                    sleepMs(5500);//5000
+                    sleepMs(5000);//5000
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -197,7 +197,7 @@ public class RedAutoBack extends OpMode {
                     /* Grab Sample */
 
                     intakeTriggerShooterOn();
-                    sleepMs(5500);//5000
+                    sleepMs(5000);//5000
 
                     intakeTriggerShooterOff();
                     sleepMs(200);

@@ -30,13 +30,13 @@ public class RedAutoFront extends OpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(87, 8, Math.toRadians(270)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(85, 15, Math.toRadians(252)); // was 250
+    private final Pose scorePose = new Pose(85, 15, Math.toRadians(249.5)); // was 252
     private final Pose pickup1Pose = new Pose(95, 35, Math.toRadians(0)); // y 35  Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose driveThroughStack1Pose = new Pose(128, 37 , Math.toRadians(0)); // 35 Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose scorePose2 = new Pose(86, 22.5, Math.toRadians(238)); //was 22, ang 240
+    private final Pose driveThroughStack1Pose = new Pose(127.5, 35.3 , Math.toRadians(0)); // 37 Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose scorePose2 = new Pose(86, 22.5, Math.toRadians(237)); //was 22, ang 240
     private final Pose pickup2Pose = new Pose(95, 56, Math.toRadians(0)); //y 60
-    private final Pose driveThroughStack2Pose = new Pose(129, 56.5, Math.toRadians(0)); // y 56
-    private final Pose scorePose3 = new Pose(86, 23, Math.toRadians(240)); //was 243
+    private final Pose driveThroughStack2Pose = new Pose(129, 55.5, Math.toRadians(0)); // y 56.5
+    private final Pose scorePose3 = new Pose(86, 23, Math.toRadians(239)); //was 243
     private final Pose leavingPose = new Pose(80, 35, Math.toRadians(0));
      // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(45, 61, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -122,7 +122,7 @@ public class RedAutoFront extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(4500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
+                    sleepMs(5500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -149,7 +149,7 @@ public class RedAutoFront extends OpMode {
                 if (!follower.isBusy()) {
                     /* Grab Sample */
                     intakeOn();
-                    sleepMs(500);
+                    sleepMs(300);//500
 
                     intakeOff(); //added 11/21/2025, remove if bummy
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -161,7 +161,7 @@ public class RedAutoFront extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     intakeTriggerShooterOn();
-                    sleepMs(5000);
+                    sleepMs(5500);
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -175,8 +175,9 @@ public class RedAutoFront extends OpMode {
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    /* Grab Sampile */intakeOn();
-
+                    /* Grab Sampile */
+                    intakeOn();
+                    sleepMs(500);
 
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -188,7 +189,10 @@ public class RedAutoFront extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
                     /* Score Sample */
-                    sleepMs(500);
+                    sleepMs(300);
+
+                    intakeOff();// wasn't
+
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(scorePickup2, true);
                     setPathState(7);
@@ -200,7 +204,7 @@ public class RedAutoFront extends OpMode {
                     /* Grab Sample */
 
                     intakeTriggerShooterOn();
-                    sleepMs(5000);
+                    sleepMs(5500);
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -333,12 +337,12 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.95); //was 90 l & r
-        rightShooter.setPower(0.95); //.62
+       leftShooter.setPower(-0.79); //was 90 l & r
+        rightShooter.setPower(0.79); //.62
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);
-        middleIntake.setPower(0.5);
+        middleIntake.setPower(0.4);
 }
     public void intakeTriggerShooterOff(){
        // leftShooter.setPower(0);

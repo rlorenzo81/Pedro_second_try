@@ -31,7 +31,7 @@ public class BlueAutoFront extends OpMode {
     private int pathState;
 
     private final Pose startPose = new Pose(61, 9, Math.toRadians(270)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(61, 16.5, Math.toRadians(294)); // Angle 310 x:71 y:24 y17
+    private final Pose scorePose = new Pose(61, 16.5, Math.toRadians(293)); // Angle 310 x:71 y:24 y17
     private final Pose pickup1Pose = new Pose(45, 37.5, Math.toRadians(180)); // y 38
     private final Pose driveThroughStack1Pose = new Pose(11, 37.5 , Math.toRadians(180)); //38
     private final Pose scorePose2 = new Pose(53, 25, Math.toRadians(295)); //y was 22
@@ -123,7 +123,7 @@ public class BlueAutoFront extends OpMode {
                 if (!follower.isBusy()) {
                     /* Score Preload */
                     intakeTriggerShooterOn();
-                    sleepMs(4500); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
+                    sleepMs(5000); //was 5000, trying to shorten the time after shooting, if this works change it for every other one
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
@@ -332,8 +332,8 @@ public void shooterOff(){
     }
     public void intakeTriggerShooterOn(){
 
-       leftShooter.setPower(-0.90);
-        rightShooter.setPower(0.90);
+       leftShooter.setPower(-0.80);
+        rightShooter.setPower(0.80);
         leftTrigger.setPower(-1);
         rightTrigger.setPower(1);
         frontIntake.setPower(1);
