@@ -31,7 +31,7 @@ public class RedAutoBack extends OpMode {
 
     private final Pose startPose = new Pose(116, 128, Math.toRadians(0)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(87, 93, Math.toRadians(223)); // 229x90 y94 It is facing the goal at a 135 degree angle.
-    private final Pose scorePose2 = new Pose(91, 83, Math.toRadians(221)); //224x94 y84was 71,74 (220)
+    private final Pose scorePose2 = new Pose(91, 83, Math.toRadians(220.6)); //224x94 y84was 71,74 (220)
     private final Pose pickup1Pose = new Pose(95, 86, Math.toRadians(0)); // y was 86 Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose driveThroughStack1Pose = new Pose(124.5, 86, Math.toRadians(0)); // x127 Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(95, 61, Math.toRadians(0)); // y was 61.5
@@ -197,7 +197,7 @@ public class RedAutoBack extends OpMode {
                     /* Grab Sample */
 
                     intakeTriggerShooterOn();
-                    sleepMs(5000);//5000
+                    sleepMs(5500);//5000
 
                     intakeTriggerShooterOff();
                     sleepMs(200);
